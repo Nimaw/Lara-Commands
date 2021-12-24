@@ -1,0 +1,53 @@
+{
+    "name": "nimaw/lara-commands",
+    "description": "Laravel extra commands not exists in core commands list.",
+    "keywords": [
+        "Lara commands",
+        "extra commands",
+        "artisan-cli",
+        "command generators"
+    ],
+    "homepage": "https://github.com/nimaw",
+    "license": "MIT",
+    "authors": [{
+        "name": "Nima Tafrishi",
+        "email": "nimatafrishi@hotmail.com",
+        "homepage": "https://nima-tf.ir",
+        "role": "Developer"
+    }],
+    "require": {
+        "php": ">=5.5.0",
+        "illuminate/support": ">=5.1",
+        "illuminate/console": ">=5.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8"
+    },
+    "autoload": {
+        "psr-4": {
+            "Nimaw\\LaraCommands\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Nimaw\\LaraCommands\\": "tests"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true
+    },
+    "scripts": {
+        "test": "./vendor/bin/phpunit",
+        "test-coverage": "./vendor/bin/phpunit --coverage-html coverage"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Nimaw\\LaraCommands\\LaraCommandsServiceProvider"
+            ]
+        }
+    }
+
+}
