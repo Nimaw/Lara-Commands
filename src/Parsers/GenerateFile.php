@@ -58,11 +58,9 @@ class GenerateFile
     public function getContents()
     {
         $contents = file_get_contents($this->getPath());
-
         foreach ($this->replaces as $search => $replace) {
-            $contents = str_replace('$' . strtoupper($search) . '$', $replace, $contents);
+            $contents = str_replace('{{ ' . strtoupper($search) . ' }}', $replace, $contents);
         }
-
         return $contents;
     }
 
