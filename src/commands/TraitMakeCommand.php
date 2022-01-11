@@ -5,8 +5,7 @@ namespace Nimaw\LaraCommands\commands;
 use Illuminate\Support\Str;
 use Illuminate\Console\GeneratorCommand;
 use Symfony\Component\Console\Input\InputArgument;
-use Nimaw\LaraCommands\Parsers\FileGenerator;
-use Nimaw\LaraCommands\Parsers\GenerateFile;
+use Nimaw\LaraCommands\Parsers\{FileGenerator, GenerateFile};
 
 class TraitMakeCommand extends GeneratorCommand
 {
@@ -152,7 +151,8 @@ class TraitMakeCommand extends GeneratorCommand
         $namespace =  $this->getDefaultNamespace('app\\');
         $namespace .= '\\' . $extra;
         $namespace = str_replace('/', '\\', $namespace);
-        return trim($namespace, '\\');
+        $namespace = trim($namespace, '\\');
+        return empty($namespace) ? 'app\Traits' : $namespace;
     }
 
     /**
