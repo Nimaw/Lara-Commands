@@ -1,0 +1,16 @@
+<?php
+
+namespace {{ NAMESPACE }};
+
+use Illuminate\Database\Eloquent\Model;
+use App\Services\Service;
+
+class CarService extends Service
+{
+    //
+    public function model(): Model
+    {
+        $this->model = YourModel::class;
+    }
+
+}
