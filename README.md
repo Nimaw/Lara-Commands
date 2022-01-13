@@ -9,11 +9,14 @@ This package can be installed via Composer:
 composer require nimaw/lara-commands --dev
 ```
 ## Usage
-After finish installation you can use commands easly.
+After finish installation you can use command's easly.
 
-``` bash
-php artisan make:view YouViewName
-```
+| Command | Description |
+| --- | --- |
+| php artisan make:view | Create new view templace |
+| php artisan make:trait | Create new Trait class |
+| php artisan make:service | Create new Service class |
+
 
 ## Credits
 
