@@ -1,12 +1,11 @@
 <?php
 
-namespace Nimaw\LaraCommands\commands;
+namespace Nimaw\LaraCommands\Commands;
 
 use Illuminate\Support\Str;
 use Illuminate\Console\GeneratorCommand;
 use Symfony\Component\Console\Input\InputArgument;
-use Nimaw\LaraCommands\Parsers\FileGenerator;
-use Nimaw\LaraCommands\Parsers\GenerateFile;
+use Nimaw\LaraCommands\Parsers\{FileGenerator, GenerateFile};
 
 class ServiceMakeCommand extends GeneratorCommand
 {
@@ -110,7 +109,12 @@ class ServiceMakeCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return '';
+        return $rootNamespace;
+    }
+
+    protected function getReplaces()
+    {
+        return;
     }
 
     /**
@@ -120,7 +124,7 @@ class ServiceMakeCommand extends GeneratorCommand
     {
         return (new GenerateFile(__DIR__ . $this->getStub(), [
             'NAMESPACE' => $this->getClassNamespace(),
-            'CLASS' => $this->getServiceNameWithoutNamespace()
+            'CLASS' => $this->getServiceNameWithoutNamespace(),
         ]))->render();
     }
 
@@ -149,10 +153,11 @@ class ServiceMakeCommand extends GeneratorCommand
     {
         $extra = str_replace($this->getServiceNameWithoutNamespace(), '', $this->getServiceName());
         $extra = str_replace('/', '\\', $extra);
-        $namespace =  $this->getDefaultNamespace('app\\');
+        $namespace =  $this->getDefaultNamespace('app\Services');
         $namespace .= '\\' . $extra;
         $namespace = str_replace('/', '\\', $namespace);
-        return trim($namespace, '\\');
+        $namespace = trim($namespace, '\\');
+        return empty($namespace) ? 'app\Services' : $namespace;
     }
 
     /**

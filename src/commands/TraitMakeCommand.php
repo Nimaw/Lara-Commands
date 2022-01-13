@@ -1,6 +1,6 @@
 <?php
 
-namespace Nimaw\LaraCommands\commands;
+namespace Nimaw\LaraCommands\Commands;
 
 use Illuminate\Support\Str;
 use Illuminate\Console\GeneratorCommand;
@@ -109,7 +109,7 @@ class TraitMakeCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return '';
+        return $rootNamespace;
     }
 
     /**
@@ -148,7 +148,7 @@ class TraitMakeCommand extends GeneratorCommand
     {
         $extra = str_replace($this->getTraitNameWithoutNamespace(), '', $this->getTraitName());
         $extra = str_replace('/', '\\', $extra);
-        $namespace =  $this->getDefaultNamespace('app\\');
+        $namespace =  $this->getDefaultNamespace('app\Traits');
         $namespace .= '\\' . $extra;
         $namespace = str_replace('/', '\\', $namespace);
         $namespace = trim($namespace, '\\');

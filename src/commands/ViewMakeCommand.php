@@ -1,12 +1,11 @@
 <?php
 
-namespace Nimaw\LaraCommands\commands;
+namespace Nimaw\LaraCommands\Commands;
 
 use Illuminate\Support\Str;
 use Illuminate\Console\GeneratorCommand;
 use Symfony\Component\Console\Input\InputArgument;
-use Nimaw\LaraCommands\Parsers\FileGenerator;
-use Nimaw\LaraCommands\Parsers\GenerateFile;
+use Nimaw\LaraCommands\Parsers\{FileGenerator, GenerateFile};
 
 class ViewMakeCommand extends GeneratorCommand
 {
@@ -120,7 +119,7 @@ class ViewMakeCommand extends GeneratorCommand
 
         return;
     }
-    
+
     /**
      * Get the console command options.
      *

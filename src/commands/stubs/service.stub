@@ -3,14 +3,13 @@
 namespace {{ NAMESPACE }};
 
 use Illuminate\Database\Eloquent\Model;
-use App\Services\Service;
 
-class CarService extends Service
+class {{ CLASS }}
 {
     //
     public function model(): Model
     {
-        $this->model = YourModel::class;
+        // $this->model = YourModel::class;
     }
 
 }

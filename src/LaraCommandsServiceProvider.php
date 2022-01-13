@@ -3,7 +3,7 @@
 namespace Nimaw\LaraCommands;
 
 use Illuminate\Support\ServiceProvider;
-use Nimaw\LaraCommands\commands\{
+use Nimaw\LaraCommands\Commands\{
     ServiceMakeCommand,
     TraitMakeCommand,
     ViewMakeCommand
