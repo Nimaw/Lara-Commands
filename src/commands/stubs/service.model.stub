@@ -1,0 +1,15 @@
+<?php
+
+namespace {{ NAMESPACE }};
+
+use {{ MODEL_NAMESPACE }};
+
+class {{ CLASS }}
+{
+
+    public function model()
+    {
+        return $this->model = {{ MODEL }}::class;
+    }
+
+}

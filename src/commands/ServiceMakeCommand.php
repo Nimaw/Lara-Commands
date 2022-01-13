@@ -4,8 +4,9 @@ namespace Nimaw\LaraCommands\Commands;
 
 use Illuminate\Support\Str;
 use Illuminate\Console\GeneratorCommand;
-use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\{InputArgument, InputOption};
 use Nimaw\LaraCommands\Parsers\{FileGenerator, GenerateFile};
+use InvalidArgumentException;
 
 class ServiceMakeCommand extends GeneratorCommand
 {
@@ -57,7 +58,13 @@ class ServiceMakeCommand extends GeneratorCommand
      */
     protected function getStub(): string
     {
-        $stub = '/stubs/service.stub';
+        $stub = null;
+        if ($this->option('model')) {
+            $stub = '/stubs/service.model.stub';
+        }
+
+        $stub = $stub ?? '/stubs/service.stub';
+
         return $this->resolveStubPath($stub);
     }
 
@@ -77,7 +84,7 @@ class ServiceMakeCommand extends GeneratorCommand
      */
     private function getServiceName(): string
     {
-        $service =  $service = Str::studly($this->argument('service'));
+        $service = $service = Str::studly($this->argument('service'));
         return $service;
     }
 
@@ -89,7 +96,7 @@ class ServiceMakeCommand extends GeneratorCommand
         if (Str::contains(strtolower($service = $this->getServiceName()), '.php') === false) {
             $service .= '.php';
         }
-        return  app_path('Services/' . $service);
+        return app_path('Services/' . $service);
     }
 
     /**
@@ -112,9 +119,24 @@ class ServiceMakeCommand extends GeneratorCommand
         return $rootNamespace;
     }
 
-    protected function getReplaces()
+    protected function getReplacements()
     {
-        return;
+        $replacments = null;
+
+        if ($this->option('model')) {
+            $modelClass = $this->parseModel($this->option('model'));
+            if (!class_exists($modelClass)) {
+                if ($this->confirm("A {$modelClass} model does not exist. Do you want to generate it?", true)) {
+                    $this->call('make:model', ['name' => $modelClass]);
+                }
+            }
+
+            $replacments = [
+                'MODEL' => $this->option('model'),
+                'MODEL_NAMESPACE' => $modelClass
+            ];
+        }
+        return $replacments;
     }
 
     /**
@@ -122,10 +144,14 @@ class ServiceMakeCommand extends GeneratorCommand
      */
     protected function getServiceContents(): mixed
     {
-        return (new GenerateFile(__DIR__ . $this->getStub(), [
-            'NAMESPACE' => $this->getClassNamespace(),
-            'CLASS' => $this->getServiceNameWithoutNamespace(),
-        ]))->render();
+        return (new GenerateFile(
+            __DIR__ . $this->getStub(),
+            array_merge([
+                'NAMESPACE' => $this->getClassNamespace(),
+                'CLASS' => $this->getServiceNameWithoutNamespace(),
+
+            ], $this->getReplacements())
+        ))->render();
     }
 
 
@@ -149,6 +175,14 @@ class ServiceMakeCommand extends GeneratorCommand
         return;
     }
 
+    protected function parseModel($model)
+    {
+        if (preg_match('([^A-Za-z0-9_/\\\\])', $model)) {
+            throw new InvalidArgumentException('Model name contains invalid characters.');
+        }
+
+        return $this->qualifyModel($model);
+    }
     public function getClassNamespace()
     {
         $extra = str_replace($this->getServiceNameWithoutNamespace(), '', $this->getServiceName());
@@ -167,6 +201,8 @@ class ServiceMakeCommand extends GeneratorCommand
      */
     protected function getOptions()
     {
-        return [];
+        return [
+            ['model', null, InputOption::VALUE_OPTIONAL, 'Generate a service for the given model.'],
+        ];
     }
 }

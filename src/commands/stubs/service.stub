@@ -6,10 +6,4 @@ use Illuminate\Database\Eloquent\Model;
 
 class {{ CLASS }}
 {
-    //
-    public function model(): Model
-    {
-        // $this->model = YourModel::class;
-    }
-
 }
