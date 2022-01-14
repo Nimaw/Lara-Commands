@@ -30,7 +30,7 @@ After finish installation you can use command's easly.
 
 | Command | Description |
 | --- | --- |
-| php artisan make:view | Create new view templace |
+| php artisan make:view | Create new view template |
 | php artisan make:trait | Create new Trait class |
 | php artisan make:service | Create new Service class |
 
